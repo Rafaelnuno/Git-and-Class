@@ -1,7 +1,7 @@
 package pt.iade.unimanage.models;
 
-
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 
         public class Student {
@@ -11,7 +11,15 @@ import java.time.LocalDate;
             private String email;
             private char gender;
             private int number;
- 
+            
+            private ArrayList<Enrolment> enrolments;
+            private ArrayList<Unit> units;
+            public Enrolment getEnrolmentByUnitId(int unitId){
+                for (Enrolment enr:enrolments)
+                    if(enr.getUnit().getId()==unitId)
+                        return enr;
+                        return null;
+            }
  
             public Student(String name, LocalDate birthDate,char gender) {
                 this.name = name;
@@ -20,8 +28,13 @@ import java.time.LocalDate;
                 this.number = nextNumber;
                 nextNumber++;
                 email = "";
+                units = new ArrayList<Unit>();
+                enrolments= new ArrayList<Enrolment>();
                 }
- 
+                public static int getNextNumber() { 
+                    return nextNumber; 
+                }
+
                 public String getName() { 
                     return name;
                  }
@@ -34,7 +47,7 @@ import java.time.LocalDate;
                 
                
 
-                    public char getGender() {
+                public char getGender() {
                         return gender;
                     }
                    
@@ -56,5 +69,24 @@ import java.time.LocalDate;
                         return number;
                 }
         
-                                
+public ArrayList<Unit> getUnits(){ 
+    return units;
+}
+
+
+public void enroll(Unit unit) {
+    units.add(unit);
+    unit.getStudents().add(this);
+
+}
+public ArrayList<Enrolment> getEnrolment(){
+return enrolments;
+}
+
+public void enroll(Enrolment enrolment) {
+    enrolments.add(enrolment);
+    enrolment.getUnit().getEnrolments().add(enrolment);
+
+}
+
 }
