@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import pt.iade.unimanage.models.Enrolment;
 import pt.iade.unimanage.models.Response;
 import pt.iade.unimanage.models.Student;
 import pt.iade.unimanage.models.StudentRepository;
@@ -66,6 +67,26 @@ public class StudentController {
                 StudentRepository.addStudent(student);
                 return student;
     }
-   
+    @GetMapping(path = "{number}/enrolments",
+        produces= MediaType.APPLICATION_JSON_VALUE)
+        public List<Enrolment> getEnrolments(@PathVariable("number") int number) throws NotFoundException{
+        logger.info("Sending enrolments of student with number "+number);
+        Student student = StudentRepository.getStudent(number);
+        if (student != null) return student.getEnrolments();
+        else throw new NotFoundException(""+number, "Student", "number");
+    }
+    @GetMapping(path = "{number}/enrolments/{unitId}",
+    produces= MediaType.APPLICATION_JSON_VALUE)
+    public Enrolment getEnrolment(@PathVariable("number") int number,
+         @PathVariable("unitId") int unitId) throws NotFoundException{
+        logger.info("Sending enrolment with id "+unitId+" of student with number "+number);
+    Student student = StudentRepository.getStudent(number);
+    if (student != null) {
+        Enrolment enr = student.getEnrolmentByUnitId(unitId);
+    if (enr != null) return enr;
+    else throw new NotFoundException(""+unitId, "Unit", "id");
+    }
+else throw new NotFoundException(""+number, "Student", "number");
+}
 
 }
