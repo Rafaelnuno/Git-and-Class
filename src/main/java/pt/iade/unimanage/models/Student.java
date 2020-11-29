@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 
-        public class Student {
+        public class Student extends Person {
             private static int nextNumber = 0;
             private String name;
             private LocalDate birthDate;
@@ -22,9 +22,7 @@ import java.util.ArrayList;
             }
  
             public Student(String name, LocalDate birthDate,char gender) {
-                this.name = name;
-                this.birthDate = birthDate;
-                this.gender = gender;
+                super(name,gender,birthDate);
                 this.number = nextNumber;
                 nextNumber++;
                 email = "";
@@ -88,5 +86,6 @@ public void enroll(Enrolment enrolment) {
     enrolment.getUnit().getEnrolments().add(enrolment);
 
 }
-
+@Override
+public String getReference(){return "S<"+number+">";}
 }

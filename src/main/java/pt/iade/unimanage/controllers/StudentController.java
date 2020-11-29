@@ -131,6 +131,9 @@ else throw new NotFoundException(""+number, "Student", "number");
  } else throw new NotFoundException(""+number, "Student", "number");
  }
 
+ public StudentController() {
+ }
+
  
 
 
