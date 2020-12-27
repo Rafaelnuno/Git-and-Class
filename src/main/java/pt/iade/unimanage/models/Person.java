@@ -16,6 +16,7 @@ public abstract class Person {
 
 
     }
-
+    public abstract String getName();
     public abstract String getReference();
+    public abstract String getEmail();
 }
